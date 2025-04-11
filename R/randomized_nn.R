@@ -1,3 +1,4 @@
+# .shuffle ----
 #' Shuffle a Vector If It Has More Than One Element
 #'
 #' This helper function shuffles a vector only if it contains more than one element.
@@ -16,7 +17,7 @@
 }
 
 
-
+# .get_neighbors ----
 #' Core Logic for Randomized Neighbor Extraction in the Presence of Repetition (which occurs with high probability for discrete data)
 #'
 #' This function finds the indices of the first two nearest neighbors for the i-th row in matrix X.
@@ -30,7 +31,7 @@
 #' @param idxs_mat A matrix of all neighbor indices sorted by their distances for each observation
 #' @param n Integer, the number of observations in the random variable X
 #'
-#' @return A list including a vector of all neighbors and a vector of the first two neighbors
+#' @return A list including a vector of first two groups of neighbors for X_i and a vector of the first two neighbors of X_i
 #' @keywords internal
 #'
 get_neighbors <- function(i, dists_mat, idxs_mat, n) {
@@ -96,7 +97,69 @@ get_neighbors <- function(i, dists_mat, idxs_mat, n) {
   # Extract the first two neighbors (needed for downstream processing)
   first_two <- head(all_neighbors, 2)
 
-  # Return both the full shuffled list and the first two neighbors
+  # Return both the full shuffled vector of first two groups of neighbors and the first two neighbors
   return(list(all = all_neighbors, first_two = first_two))
 }
+
+
+# randomized_nn ----
+#' The Wrapper Function for All Observations That Performs Randomized Neighbor Extraction in the Presence of Repetition (which occurs with high probability for discrete data)
+#'
+#' This function finds the indices of the first two nearest neighbors for all observations in matrix X.
+#' To handle duplicate distances (e.g., from repeated points), it groups neighbors based on their distance:
+#'   - First group: all neighbors with the smallest non-zero distance (excluding the point itself if the distance is zero)
+#'   - Second group: all neighbors with the next smallest distance
+#' Both groups are randomly shuffled before selecting the first two overall neighbors.
+#'
+#' @param X A vector, matrix, or data frame of observations
+#'
+#' @return A list including:
+#'   - a list of the first two groups of neighbors (shuffled) for all observations,
+#'   - and a matrix containing the first two neighbors of each observation.
+#'
+#'
+#' @examples
+#' # Create a small example matrix with some repeated rows
+#' set.seed(42)
+#' X <- c(1,1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 5, 5)
+#'
+#' # Run the randomized neighbor function
+#' result <- randomized_nn(X)
+#'
+#' # View the shuffled full neighbor groups for each observation
+#' result$two_groups_of_neighbors
+#'
+#' # View the matrix of the first two neighbors for each observation
+#' result$two_neighbors
+#'
+#' @export
+randomized_nn <- function(X) {
+
+  # Convert X to a matrix, which is required for using RANN::nn2
+  X_mat <- matrix(X)
+
+  # Number of observations (sample size)
+  n <- nrow(X_mat)
+
+  # Compute the full neighborhood structure using Euclidean distances
+  nn_results <- RANN::nn2(X_mat, k = n)
+
+  # Apply get_neighbors(i) to all row indices from 1 to n
+  neighbor_results <- lapply(
+    1:n,
+    function(i) get_neighbors(i, nn_results$nn.dists, nn_results$nn.idx, n)
+  )
+
+  # Extract the list of all shuffled neighbors for each observation
+  two_groups_of_neighbors <- lapply(neighbor_results, `[[`, "all")
+
+  # Extract the first two neighbors for each observation into a matrix
+  two_neighbors <- do.call(rbind, lapply(neighbor_results, `[[`, "first_two"))
+
+  # Return both the full shuffled vector of first and second neighbor groups,
+  # and the matrix of first two neighbors for all observations
+  return(list(two_groups_of_neighbors = two_groups_of_neighbors,
+              two_neighbors = two_neighbors))
+}
+
 
