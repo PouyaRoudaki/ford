@@ -34,7 +34,7 @@
 #' @return A list including a vector of first two groups of neighbors for X_i and a vector of the first two neighbors of X_i
 #' @keywords internal
 #'
-get_neighbors <- function(i, dists_mat, idxs_mat, n) {
+.get_neighbors <- function(i, dists_mat, idxs_mat, n) {
 
   # Extract the distances of X_i to all other points
   dists <- dists_mat[i, ]
@@ -86,10 +86,10 @@ get_neighbors <- function(i, dists_mat, idxs_mat, n) {
   group2_indices <- idxs[group2_pos]
 
   # Shuffle the neighbors within group 1
-  group1_shuffled <- shuffle(group1_indices)
+  group1_shuffled <- .shuffle(group1_indices)
 
   # Shuffle the neighbors within group 2
-  group2_shuffled <- shuffle(group2_indices)
+  group2_shuffled <- .shuffle(group2_indices)
 
   # Combine the shuffled first and second neighbor groups
   all_neighbors <- c(group1_shuffled, group2_shuffled)
@@ -117,11 +117,12 @@ get_neighbors <- function(i, dists_mat, idxs_mat, n) {
 #'   - a list of the first two groups of neighbors (shuffled) for all observations,
 #'   - and a matrix containing the first two neighbors of each observation.
 #'
+#' @export
 #'
 #' @examples
 #' # Create a small example matrix with some repeated rows
 #' set.seed(42)
-#' X <- c(1,1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 5, 5)
+#' X <- c(1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 5, 5)
 #'
 #' # Run the randomized neighbor function
 #' result <- randomized_nn(X)
@@ -131,8 +132,6 @@ get_neighbors <- function(i, dists_mat, idxs_mat, n) {
 #'
 #' # View the matrix of the first two neighbors for each observation
 #' result$two_neighbors
-#'
-#' @export
 randomized_nn <- function(X) {
 
   # Convert X to a matrix, which is required for using RANN::nn2
@@ -147,7 +146,7 @@ randomized_nn <- function(X) {
   # Apply get_neighbors(i) to all row indices from 1 to n
   neighbor_results <- lapply(
     1:n,
-    function(i) get_neighbors(i, nn_results$nn.dists, nn_results$nn.idx, n)
+    function(i) .get_neighbors(i, nn_results$nn.dists, nn_results$nn.idx, n)
   )
 
   # Extract the list of all shuffled neighbors for each observation

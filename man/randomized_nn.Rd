@@ -24,7 +24,7 @@ Both groups are randomly shuffled before selecting the first two overall neighbo
 \examples{
 # Create a small example matrix with some repeated rows
 set.seed(42)
-X <- c(1,1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 5, 5)
+X <- c(1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 5, 5)
 
 # Run the randomized neighbor function
 result <- randomized_nn(X)
@@ -34,5 +34,4 @@ result$two_groups_of_neighbors
 
 # View the matrix of the first two neighbors for each observation
 result$two_neighbors
-
 }
