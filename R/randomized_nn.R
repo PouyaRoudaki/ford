@@ -6,6 +6,7 @@
 #' @param x A vector to shuffle.
 #'
 #' @return A shuffled version of the input vector, or the original value if `x` has length 1.
+#' @keywords internal
 #'
 #' @examples
 #' .shuffle(c(1, 2, 3))   # Might return c(3, 1, 2)
