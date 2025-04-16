@@ -112,7 +112,7 @@ irdec <- function(Y, X, dist.type.X = "continuous", na.rm = TRUE){
 
     # Now for each i we should subtract cases that N(i) = j. In these cases (possibly several) \bone{ Y_{j} \in K_{i}} = 1.
     # So we subtract all of them and check what is the next neighbor since the formula is written based on N^{(-j)}(i) which is the closest neighbor of i without i and j.
-    idx <- which(nn_index_X == j)
+    idx <- which(nn1_index_X == j)
 
 
     if(length(idx) > 0) {
@@ -131,7 +131,7 @@ irdec <- function(Y, X, dist.type.X = "continuous", na.rm = TRUE){
   bad_id <- which(R_Y == 1 | R_Y == n)
 
   # Find irdec: 1 - 1/(2 * (n - 1) * (n - 2)) \sum_{j, R_j != 1 or n} 1/ F_{n,j}(Y_j) * (1 - F_{n,j}(Y_j)) * \sum_{i!=j and N(i) != j} \bone{ Y_{j} \in K_{i}} where K{i} = [min(Y_i, Y_{N(i)}),max(Y_i, Y_{N(i)})]
-  nu_n = 1 - sum(C_Y[-bad_id] / t1[-bad_id]) / (2 * (n - 1) * (n - 2))
+  nu_n = 1 - sum(C_Y[-bad_id] / D[-bad_id]) / (2 * (n - 1) * (n - 2))
 
   # Return the irdec
   return(nu_n)
