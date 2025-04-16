@@ -87,7 +87,7 @@ irdec <- function(Y, X, dist.type.X = "continuous", na.rm = TRUE){
   }
 
   # Find Y's ranks
-  R_Y <- rank(Y, ties.method = "max")
+  R_Y <- rank(Y, ties.method = "min")
 
   # vector of F_{n,j}(Y_j)
   G_Y <- (R_Y - 1) / (n - 1)
