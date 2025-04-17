@@ -60,7 +60,7 @@ irdec <- function(Y, X, dist.type.X = "continuous", na.rm = TRUE){
     stop("Not enough points to find 3 nearest neighbors which is required because of j != i and j != N(i) condition.")
   }
 
-  if(dist.type.X == "continuous"){ # for continuous data repetition is very unlikely so we do not need randomized neighbor extraction
+  if(dist.type.X == "continuous"){ # for continuous data repetition is very unlikely so we do not need randomized neighbors extraction
 
     # Extract the matrix of first three neighbors(including itself) for all observations. Note that by convention of RANN::nn2() for any x_i the first neighbor is itself.
     nn_X <- RANN::nn2(X, query = X, k = 3)
@@ -131,7 +131,7 @@ irdec <- function(Y, X, dist.type.X = "continuous", na.rm = TRUE){
   bad_id <- which(R_Y == 1 | R_Y == n)
 
   # Find irdec: 1 - 1/(2 * (n - 1) * (n - 2)) \sum_{j, R_j != 1 or n} 1/ F_{n,j}(Y_j) * (1 - F_{n,j}(Y_j)) * \sum_{i!=j and N(i) != j} \bone{ Y_{j} \in K_{i}} where K{i} = [min(Y_i, Y_{N(i)}),max(Y_i, Y_{N(i)})]
-  nu_n = 1 - sum(C_Y[-bad_id] / D[-bad_id]) / (2 * (n - 1) * (n - 2))
+  nu_n = 1 - sum(C_Y[-bad_id] / D[-bad_id]) / (2 * (n-1) * (n - 2))
 
   # Return the irdec
   return(nu_n)
