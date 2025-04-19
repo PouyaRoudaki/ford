@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="generator" content="litedown 0.7">
-<title>IRDEC-demo</title>
+<title>irdec-demo</title>
 <style type="text/css">
 body {
   font-family: sans-serif;
@@ -116,7 +116,7 @@ section.footnotes {
 </head>
 <body>
 <div class="frontmatter">
-<div class="title"><h1>IRDEC-demo</h1></div>
+<div class="title"><h1>irdec-demo</h1></div>
 </div>
 <div class="body">
 <h1 id="chp:introduction">Introduction</h1>
@@ -132,13 +132,13 @@ $$</p>
 <p>$$
 \tilde{\mu}(A) = \frac{\mu(A \cap \tilde{S})}{\mu(\tilde{S})}, \quad \text{for measurable } A \subseteq S
 $$</p>
-<p>Then the <strong>IRDEC dependence coefficient</strong> is defined as:</p>
+<p>Then the <strong>irdec dependence coefficient</strong> is defined as:</p>
 <p>$$
-\nu(Y, \mathbf{X}) := \int \frac{\mathrm{Var}(\mathbb{E}[\mathbf{1}{Y \geq t} \mid \mathbf{X}])}{\mathrm{Var}(\mathbf{1}{Y \geq t})} d\tilde{\mu}(t)
+\nu(Y, \mathbf{X}) := \int \frac{\mathrm{Var}(\mathbb{E}[\mathbf{1}{Y \ge t} \mid \mathbf{X}])}{\mathrm{Var}(\mathbf{1}{Y \ge t})} d\tilde{\mu}(t)
 $$</p>
-<p>In contrast, <a href="https://arxiv.org/pdf/1910.12327.pdf"><em>A Simple Measure Of Conditional Dependence</em></a>. consider:</p>
+<p>In contrast, <a href="https://arxiv.org/pdf/1910.12327.pdf"><em>A Simple Measure Of Conditional Dependence</em></a> consider:</p>
 <p>$$
-T(Y, \mathbf{X}) = \frac{\int \mathrm{Var}(\mathbb{E}[\mathbf{1}{Y \geq t} \mid \mathbf{X}]) d\mu(t)}{\int \mathrm{Var}(\mathbf{1}{Y \geq t}) d\mu(t)}
+T(Y, \mathbf{X}) = \frac{\int \mathrm{Var}(\mathbb{E}[\mathbf{1}{Y \ge t} \mid \mathbf{X}]) d\mu(t)}{\int \mathrm{Var}(\mathbf{1}{Y \ge t}) d\mu(t)}
 $$</p>
 <h1 id="chp:continuous-case">Continuous Case</h1>
 <pre><code class="language-r">n &lt;- 1000
@@ -146,11 +146,11 @@ x &lt;- matrix(runif(n * 3), nrow = n)
 y &lt;- (x[, 1] + x[, 2]) %% 1
 
 irdec(y, x[, 1])
-#&gt; [1] -0.02593825
+#&gt; [1] -0.01597952
 irdec(y, x[, 2])
-#&gt; [1] 0.02803565
+#&gt; [1] -0.02250778
 irdec(y, x[, 3])
-#&gt; [1] -0.03851702
+#&gt; [1] 0.009514743
 </code></pre>
 <h1 id="chp:discrete-case">Discrete Case</h1>
 <h2 id="sec:example-1">Example 1</h2>
@@ -161,9 +161,9 @@ x2 &lt;- runif(n)
 y &lt;- x1
 
 irdec(y, x1, dist.type.X = &quot;discrete&quot;)
-#&gt; [1] 0.9996947
+#&gt; [1] 0.9996349
 irdec(y, x2)
-#&gt; [1] 0.09326425
+#&gt; [1] 0.09579155
 </code></pre>
 <h2 id="sec:example-2">Example 2</h2>
 <pre><code class="language-r">n &lt;- 10000
@@ -172,12 +172,12 @@ y1 &lt;- rbinom(n, 1, 0.5)
 y2 &lt;- as.numeric(x1 &gt;= 0.5)
 
 irdec(y1, x1, dist.type.X = &quot;discrete&quot;)
-#&gt; [1] 0.2696161
+#&gt; [1] 0.2478413
 irdec(y2, x1, dist.type.X = &quot;discrete&quot;)
-#&gt; [1] 0.5033388
+#&gt; [1] 0.4997499
 
 FOCI::codec(y1, x1)
-#&gt; [1] -0.00918769
+#&gt; [1] 0.03878304
 FOCI::codec(y2, x1)
 #&gt; [1] 1
 </code></pre>
@@ -253,7 +253,7 @@ FOCI::codec(y2, x1)
 #&gt; [1] 0.9450425
 </code></pre>
 <h1 id="chp:conclusion">Conclusion</h1>
-<p>IRDEC provides a flexible and theoretically grounded dependence measure that works for both continuous and discrete predictors. It often aligns with but can also outperform traditional dependence estimators parametric or nonparametric correlation coefficents, particularly in detection of functional dependencies.</p>
+<p><em>irdec</em> provides a flexible and theoretically grounded dependence measure that works for both continuous and discrete predictors. It often aligns with but can also outperform traditional dependence estimators parametric or nonparametric correlation coefficents, particularly in detection of functional dependencies.</p>
 </div>
 </body>
 </html>

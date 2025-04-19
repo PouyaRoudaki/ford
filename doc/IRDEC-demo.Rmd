@@ -1,8 +1,8 @@
 ---
-title: "IRDEC-demo"
+title: "irdec-demo"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{IRDEC-demo}
+  %\VignetteIndexEntry{irdec-demo}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
@@ -35,16 +35,16 @@ $$
 \tilde{\mu}(A) = \frac{\mu(A \cap \tilde{S})}{\mu(\tilde{S})}, \quad \text{for measurable } A \subseteq S
 $$
 
-Then the **IRDEC dependence coefficient** is defined as:
+Then the **irdec dependence coefficient** is defined as:
 
 $$
-\nu(Y, \mathbf{X}) := \int \frac{\mathrm{Var}(\mathbb{E}[\mathbf{1}\{Y \geq t\} \mid \mathbf{X}])}{\mathrm{Var}(\mathbf{1}\{Y \geq t\})} d\tilde{\mu}(t)
+\nu(Y, \mathbf{X}) := \int \frac{\mathrm{Var}(\mathbb{E}[\mathbf{1}\{Y \ge t\} \mid \mathbf{X}])}{\mathrm{Var}(\mathbf{1}\{Y \ge t\})} d\tilde{\mu}(t)
 $$
 
-In contrast, [*A Simple Measure Of Conditional Dependence*](https://arxiv.org/pdf/1910.12327.pdf). consider:
+In contrast, [*A Simple Measure Of Conditional Dependence*](https://arxiv.org/pdf/1910.12327.pdf) consider:
 
 $$
-T(Y, \mathbf{X}) = \frac{\int \mathrm{Var}(\mathbb{E}[\mathbf{1}\{Y \geq t\} \mid \mathbf{X}]) d\mu(t)}{\int \mathrm{Var}(\mathbf{1}\{Y \geq t\}) d\mu(t)}
+T(Y, \mathbf{X}) = \frac{\int \mathrm{Var}(\mathbb{E}[\mathbf{1}\{Y \ge t\} \mid \mathbf{X}]) d\mu(t)}{\int \mathrm{Var}(\mathbf{1}\{Y \ge t\}) d\mu(t)}
 $$
 
 # Continuous Case
@@ -162,4 +162,4 @@ FOCI::codec(y2, x1)
 
 # Conclusion
 
-IRDEC provides a flexible and theoretically grounded dependence measure that works for both continuous and discrete predictors. It often aligns with but can also outperform traditional dependence estimators parametric or nonparametric correlation coefficents, particularly in detection of functional dependencies.
+*irdec* provides a flexible and theoretically grounded dependence measure that works for both continuous and discrete predictors. It often aligns with but can also outperform traditional dependence estimators parametric or nonparametric correlation coefficents, particularly in detection of functional dependencies.
