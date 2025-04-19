@@ -21,5 +21,5 @@ LazyData: true
 URL: https://github.com/PouyaRoudaki/ford
 BugReports: https://github.com/PouyaRoudaki/ford/issues
 RoxygenNote: 7.3.2
-Suggests: knitr, rmarkdown, testthat
+Suggests: knitr, rmarkdown, markdown, xfun, testthat
 VignetteBuilder: knitr
